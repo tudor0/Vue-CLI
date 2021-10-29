@@ -33,21 +33,21 @@ export default {
           isFavorite: true,
         },
         {
-          id: "julie",
-          name: "Julie Jones",
+          id: "tudor",
+          name: "Tudor S.A.D",
           phone: "0987 654421 21",
-          email: "julie@localhost.com",
+          email: "tudor@localhost.com",
           isFavorite: false,
         },
         {
-          id: "manuel1",
-          name: "Manuel Lorenz",
+          id: "sasuke",
+          name: "Uchiha Sasuke",
           phone: "0123 45678 91",
-          email: "manuel@localhost.com",
+          email: "sasuke@localhost.com",
           isFavorite: false,
         },
         {
-          id: "julie1",
+          id: "julie",
           name: "Julie Jones",
           phone: "0987 654421 23",
           email: "julie@localhost.com",
@@ -58,10 +58,7 @@ export default {
   },
   methods: {
     deleteFinal(friendID) {
-      const toDelete = this.friends.findIndex(
-        (friend) => friend.id === friendID
-      );
-      this.friends.splice(toDelete, 1);
+      this.friends = this.friends.filter((friend) => friend.id !== friendID);
     },
     toggleFavoriteStatus(friendID) {
       const found = this.friends.find((friend) => friend.id === friendID);
@@ -107,7 +104,8 @@ header {
   padding: 0;
   list-style: none;
 }
-#app li, #app form {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -138,5 +136,4 @@ header {
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
 }
-
 </style>
