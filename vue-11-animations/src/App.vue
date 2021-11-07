@@ -1,31 +1,5 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="block" :class="{ animate: animatedBlock }"></div>
-      <button @click="animateBlock">Animate</button>
-    </div>
-    <div class="container">
-      <transition>
-        <p v-if="paragraphIsVisible">this is not always visible</p>
-      </transition>
-      <button @click="toggleP">Toggle paragraph</button>
-    </div>
-    <base-modal @close="hideDialog" :open="dialogIsVisible">
-      <p>This is a test dialog!</p>
-      <button @click="hideDialog">Close it!</button>
-    </base-modal>
-    <div class="container">
-      <transition name="fade-button" mode="out-in">
-        <!-- <div> -->
-        <button @click="showUsers" v-if="!usersVisible">Show Users</button>
-        <button @click="hideUsers" v-else>Hide Users</button>
-        <!-- </div> -->
-      </transition>
-    </div>
-    <div class="container">
-      <button @click="showDialog">Show Dialog</button>
-    </div>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -36,6 +10,8 @@ export default {
       animatedBlock: false,
       paragraphIsVisible: false,
       usersVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -56,6 +32,54 @@ export default {
     },
     hideUsers() {
       this.usersVisible = false;
+    },
+    beforeEnter(el) {
+      console.log('beforeEnter');
+      console.log(el);
+      el.style.opacity = 0;
+    },
+    beforeLeave(el) {
+      console.log('beforeLeave');
+      console.log(el);
+      el.style.opacity = 1;
+    },
+    enter(el, done) {
+      console.log('enter');
+      console.log(el);
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round++;
+        if (round > 10) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 40);
+    },
+    leave(el, done) {
+      console.log('leave');
+      console.log(el);
+      let round = 10;
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = round * 0.1;
+        round--;
+        if (round < 1) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 40);
+    },
+    afterEnter(el) {
+      console.log('afterEnter');
+      console.log(el);
+    },
+    enterCancelled(el) {
+      console.log(el);
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled(el) {
+      console.log(el);
+      clearInterval(this.leaveInterval);
     },
   },
 };
